@@ -61,5 +61,32 @@ namespace SuperHeroAPI_DotNet8.Controllers
             // Return Status
             return Ok(await _context.SuperHeroes.ToListAsync());
         }
+
+        // PUT - UPDATE
+        [HttpPut]
+        public async Task<ActionResult<List<SuperHero>>> UpdateHero(SuperHero updatedHero)
+        {
+            // Find the hero based on the id
+            var dbHero = await _context.SuperHeroes.FindAsync(updatedHero.Id);
+
+            // if hero is not found
+            if (dbHero is null)
+            {
+                // Return Status Code: 404
+                return NotFound("Hero not found");
+            }
+
+            // Update Hero information
+            dbHero.Name = updatedHero.Name;
+            dbHero.FirstName = updatedHero.FirstName;
+            dbHero.LastName = updatedHero.LastName;
+            dbHero.Place= updatedHero.Place;
+
+            // save changes
+            await _context.SaveChangesAsync();
+
+            // Return Status
+            return Ok(await _context.SuperHeroes.ToListAsync());
+        }
     }
 }
