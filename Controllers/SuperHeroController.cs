@@ -18,7 +18,7 @@ namespace SuperHeroAPI_DotNet8.Controllers
         {
             _context = context;
         }
-        // GET - READ
+        // GET - READ DATA
         [HttpGet]
         public async Task<ActionResult<List<SuperHero>>> GetAllHeroes()
         {
@@ -48,7 +48,7 @@ namespace SuperHeroAPI_DotNet8.Controllers
             return Ok(hero);
         }
 
-        // POST - CREATE
+        // POST - CREATE DATA
         [HttpPost]
         public async Task<ActionResult<List<SuperHero>>> AddHero(SuperHero hero)
         {
@@ -62,7 +62,7 @@ namespace SuperHeroAPI_DotNet8.Controllers
             return Ok(await _context.SuperHeroes.ToListAsync());
         }
 
-        // PUT - UPDATE
+        // PUT - UPDATE DATA
         [HttpPut]
         public async Task<ActionResult<List<SuperHero>>> UpdateHero(SuperHero updatedHero)
         {
@@ -81,6 +81,30 @@ namespace SuperHeroAPI_DotNet8.Controllers
             dbHero.FirstName = updatedHero.FirstName;
             dbHero.LastName = updatedHero.LastName;
             dbHero.Place= updatedHero.Place;
+
+            // save changes
+            await _context.SaveChangesAsync();
+
+            // Return Status
+            return Ok(await _context.SuperHeroes.ToListAsync());
+        }
+
+        // DELETE - DELETE DATA
+        [HttpDelete]
+        public async Task<ActionResult<List<SuperHero>>> DeleteHero(int id)
+        {
+            // Find the hero based on the id
+            var dbHero = await _context.SuperHeroes.FindAsync(id);
+
+            // if hero is not found
+            if (dbHero is null)
+            {
+                // Return Status Code: 404
+                return NotFound("Hero not found");
+            }
+
+            // remove dbHero data based on id
+            _context.SuperHeroes.Remove(dbHero);
 
             // save changes
             await _context.SaveChangesAsync();
