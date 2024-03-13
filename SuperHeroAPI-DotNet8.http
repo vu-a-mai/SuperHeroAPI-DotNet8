@@ -9,3 +9,7 @@ Accept: application/json
 GET {{SuperHeroAPI-DotNet8_HostAddress}}/weatherforecast
 
 ###
+
+GET {{SuperHeroAPI-DotNet8_HostAddress}}/api/superhero
+
+###
