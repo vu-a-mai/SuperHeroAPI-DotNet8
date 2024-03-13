@@ -18,7 +18,15 @@ POST {{SuperHeroAPI-DotNet8_HostAddress}}/api/superhero
 Content-Type: application/json
 
 {
-  //SuperHero
+    "name": "Hulk",
+    "firstName": "Bruce",
+    "lastName": "Banner",
+    "place": "Dayton"
 }
+
+###
+
+
+DELETE {{SuperHeroAPI-DotNet8_HostAddress}}/api/superhero?id=5
 
 ###
