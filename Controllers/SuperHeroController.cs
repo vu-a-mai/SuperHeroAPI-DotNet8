@@ -18,7 +18,7 @@ namespace SuperHeroAPI_DotNet8.Controllers
         {
             _context = context;
         }
-
+        // GET - READ
         [HttpGet]
         public async Task<ActionResult<List<SuperHero>>> GetAllHeroes()
         {
@@ -32,7 +32,7 @@ namespace SuperHeroAPI_DotNet8.Controllers
 
         // Route id
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<SuperHero>>> GetHero(int id)
+        public async Task<ActionResult<SuperHero>> GetHero(int id)
         {
             // Find the hero based on the id
             var hero = await _context.SuperHeroes.FindAsync(id);
@@ -46,6 +46,20 @@ namespace SuperHeroAPI_DotNet8.Controllers
 
             // Return Status
             return Ok(hero);
+        }
+
+        // POST - CREATE
+        [HttpPost]
+        public async Task<ActionResult<List<SuperHero>>> AddHero(SuperHero hero)
+        {
+            // add the hero to the data context
+            _context.SuperHeroes.Add(hero);
+
+            // save changes
+            await _context.SaveChangesAsync();
+
+            // Return Status
+            return Ok(await _context.SuperHeroes.ToListAsync());
         }
     }
 }
